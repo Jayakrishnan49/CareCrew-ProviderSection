@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:project_2_provider/Constants/app_color.dart';
+import 'package:project_2_provider/constants/app_color.dart';
 
 
 class CustomButton extends StatelessWidget {
@@ -36,7 +36,7 @@ class CustomButton extends StatelessWidget {
         decoration: BoxDecoration(
           color: color ?? AppColors.buttonColor,
           borderRadius: BorderRadius.circular(borderRadius ?? 50),
-          border: Border.all(color:borderColor?? AppColors.primary),
+          border: Border.all(color:borderColor?? AppColors.buttonColor),
         ),
         child: Center(
           child: Row(

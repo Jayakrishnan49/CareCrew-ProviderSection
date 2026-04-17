@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:project_2_provider/Constants/app_color.dart';
-import 'package:project_2_provider/Widgets/image_picker.dart';
+import 'package:project_2_provider/constants/app_color.dart';
+import 'package:project_2_provider/widgets/image_picker.dart';
 
 
 class CustomCameraGalleryBottomSheet extends StatelessWidget {

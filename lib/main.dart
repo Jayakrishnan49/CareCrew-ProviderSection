@@ -1,13 +1,18 @@
+
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:project_2_provider/Controllers/Auth%20Provider/auth_provider.dart';
-import 'package:project_2_provider/Controllers/Custom%20Textform%20Field%20Provider/custom_text_form_field_provider.dart';
-import 'package:project_2_provider/Controllers/DropDown/dropdown_controller_provider.dart';
-import 'package:project_2_provider/Controllers/ServiceProvider/service_provider.dart';
-import 'package:project_2_provider/Controllers/bottomNavProvider/bottom_nav_provider.dart';
-import 'package:project_2_provider/View/ServiceProviderRegistrationScreen/service_provider_registration_main.dart';
-import 'package:project_2_provider/View/Splash%20screen/splash_screen.dart';
-
+import 'package:project_2_provider/controllers/policy_provider/policy_provider.dart';
+import 'package:project_2_provider/controllers/auth_provider/auth_provider.dart';
+import 'package:project_2_provider/controllers/booking_provider/booking_provider.dart';
+import 'package:project_2_provider/controllers/bottom_nav_provider/bottom_nav_provider.dart';
+import 'package:project_2_provider/controllers/custom_textform_field_provider/custom_text_form_field_provider.dart';
+import 'package:project_2_provider/controllers/drop_down/dropdown_controller_provider.dart';
+import 'package:project_2_provider/controllers/home_provider/home_provider.dart';
+import 'package:project_2_provider/controllers/schedule_provider/schedule_provider.dart';
+import 'package:project_2_provider/controllers/service_drop_down/service_dropdown.dart';
+import 'package:project_2_provider/controllers/service_provider/service_provider.dart';
+import 'package:project_2_provider/view/splash_screen/splash_screen.dart';
 import 'package:provider/provider.dart';
 
 void main() async{
@@ -32,13 +37,20 @@ class MyApp extends StatelessWidget {
                 ChangeNotifierProvider(create: (_)=>DropDownProvider()),
                 ChangeNotifierProvider(create: (_)=>ServiceProvider()),
                 ChangeNotifierProvider(create: (_)=>NavigationProvider()),
+                 ChangeNotifierProvider(create: (_)=>DropProvider()..fetchServices()),
+                    // ChangeNotifierProvider(create: (_)=>PermissionServiceProvider()),
+                    ChangeNotifierProvider(create: (_) => BookingRequestProvider()),
+                    ChangeNotifierProvider(create: (_) => HomeProvider()),
+                    ChangeNotifierProvider(create: (_) => ScheduleProvider()),
+                    ChangeNotifierProvider(create: (_) => PolicyProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
-        home: SplashScreen()
-        // home: LoginMain(),
+        home: SplashScreen(),
+        // home: RegistrationInfoScreen(),
         // home: ServiceProviderRegistrationMain(),
+        // home: UserApprovalStatusScreen(),
 
       ),
     );
