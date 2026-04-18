@@ -2,11 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:project_2_provider/constants/app_color.dart';
+import 'package:project_2_provider/controllers/auth_provider/auth_provider.dart';
 import 'package:project_2_provider/model/user_model.dart';
 import 'package:project_2_provider/services/user_firebase_service.dart';
+import 'package:project_2_provider/view/about_screen/about_screen.dart';
+import 'package:project_2_provider/view/auth/login_screen/login_main.dart';
 import 'package:project_2_provider/view/documents_screen/documents_screen.dart';
+import 'package:project_2_provider/view/help_support_screen/help_support_screen.dart';
 import 'package:project_2_provider/view/personal_detail_screen/personal_details_screen.dart';
 import 'package:project_2_provider/view/policy_screen/policy_screen.dart';
+import 'package:project_2_provider/widgets/cutom_show_dialog.dart';
+import 'package:provider/provider.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -31,8 +37,8 @@ class ProfileScreen extends StatelessWidget {
         ),
         // centerTitle: true,
       ),
-      body: FutureBuilder<UserModel?>(
-        future: userService.getUser(user?.uid ?? ''),
+      body: StreamBuilder<UserModel?>(
+        stream: userService.streamUser(user?.uid ?? ''),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
@@ -400,6 +406,7 @@ class ProfileScreen extends StatelessWidget {
                   subtitle: 'Get help with your account',
                   onTap: () {
                     // Navigate to help
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>HelpSupportScreen()));
                   },
                 ),
                 _buildDivider(),
@@ -410,6 +417,7 @@ class ProfileScreen extends StatelessWidget {
                   subtitle: 'Learn more about us',
                   onTap: () {
                     // Navigate to about
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>AboutScreen()));
                   },
                 ),
                 _buildDivider(),
@@ -418,7 +426,31 @@ class ProfileScreen extends StatelessWidget {
                   iconColor: Colors.red,
                   title: 'Logout',
                   subtitle: 'Sign out of your account',
-                  onTap: () => _showLogoutDialog(context),
+                  // onTap: () => _showLogoutDialog(context),
+                  onTap: () {
+                    showDialog(
+                      context: context, 
+                      builder: (_)=>CustomShowDialog(
+                        title: 'Oh No, You Are Leaving...', 
+                        subTitle: 'Are you sure want to logout',
+                        buttonLeft: 'No',
+                        buttonRight: 'Yes',
+                        imagePath: 'assets/logo/logout.png',
+                        onTap:()async{
+                          // await FirebaseAuth.instance.signOut();
+                          await context.read<ServiceAuthProvider>().logout();
+                if (context.mounted) {
+                  // Navigator.pop(dialogContext);
+                  // Navigate to login screen
+                  // Navigator.pushReplacementNamed(context, '/login');
+                  Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(builder: (_) => const LoginMain()),
+                    (_) => false,
+                  );
+                }
+                        })
+                    );
+                  },
                   showArrow: false,
                 ),
               ],

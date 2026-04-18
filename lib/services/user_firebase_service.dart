@@ -124,4 +124,14 @@ Stream<List<String>> get providerServiceIdsStream => _usersCollection
       final data = doc.data() as Map<String, dynamic>;
       return List<String>.from(data['serviceIds'] ?? []);
     });
+
+
+    Stream<UserModel?> streamUser(String uid) {
+      return FirebaseFirestore.instance
+      .collection('service_provider')
+      .doc(uid)
+      .snapshots()
+      .map((doc) => doc.exists ? UserModel.fromJson(doc.data()!) : null);
+    }
+    
 }

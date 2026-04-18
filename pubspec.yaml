@@ -48,6 +48,7 @@ dependencies:
   url_launcher: ^6.3.2
   lottie: ^3.3.2
   webview_flutter: ^4.13.1
+  font_awesome_flutter: ^11.0.0
 
 dev_dependencies:
   flutter_test:
@@ -79,6 +80,7 @@ flutter:
     - assets/icons/registration_info.png
     - assets/icons/registration_info1.png
     - assets/icons/registration_info2.png
+    - assets/logo/logout.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

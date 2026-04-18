@@ -313,15 +313,20 @@ class PersonalDetailsProvider extends ChangeNotifier {
   }
 
   // ── Image picking ─────────────────────────────────────────────────────────
-  Future<void> pickProfileImage() async {
-    final picked = await ImagePicker()
-        .pickImage(source: ImageSource.gallery, imageQuality: 80);
-    if (picked != null) {
-      _pickedProfileImage = File(picked.path);
-      notifyListeners();
-    }
-  }
+  // Future<void> pickProfileImage() async {
+  //   final picked = await ImagePicker()
+  //       .pickImage(source: ImageSource.gallery, imageQuality: 80);
+  //   if (picked != null) {
+  //     _pickedProfileImage = File(picked.path);
+  //     notifyListeners();
+  //   }
+  // }
 
+  void setProfileImage(String path) {
+    _pickedProfileImage = File(path);
+    notifyListeners();
+  }
+  
   Future<void> pickIdCardImage() async {
     final picked = await ImagePicker()
         .pickImage(source: ImageSource.gallery, imageQuality: 85);

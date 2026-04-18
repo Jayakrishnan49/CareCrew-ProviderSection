@@ -1527,11 +1527,12 @@
 
 
 
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:project_2_provider/controllers/personal_details_provider/personal_details_provider.dart';
+import 'package:project_2_provider/widgets/custom_bottom_sheet.dart';
+import 'package:project_2_provider/widgets/custom_modern_snackbar.dart';
 import 'package:provider/provider.dart';
 import 'package:project_2_provider/constants/app_color.dart';
 
@@ -1550,21 +1551,56 @@ class PersonalDetailsScreen extends StatelessWidget {
 class _PersonalDetailsView extends StatelessWidget {
   const _PersonalDetailsView();
 
-  @override
-  Widget build(BuildContext context) {
-    final provider = context.watch<PersonalDetailsProvider>();
+  // @override
+  // Widget build(BuildContext context) {
+  //   final provider = context.watch<PersonalDetailsProvider>();
 
-    return Scaffold(
-      backgroundColor: AppColors.secondary,
-      appBar: _buildAppBar(context, provider),
-      body: provider.isLoading
-          ? const Center(
-              child: CircularProgressIndicator(color: AppColors.primary))
-          : provider.user == null
-              ? const Center(child: Text('Failed to load profile'))
-              : _PersonalTab(),
-    );
-  }
+  //   return Scaffold(
+  //     backgroundColor: AppColors.secondary,
+  //     appBar: _buildAppBar(context, provider),
+  //     body: provider.isLoading
+  //         ? const Center(
+  //             child: CircularProgressIndicator(color: AppColors.primary))
+  //         : provider.user == null
+  //             ? const Center(child: Text('Failed to load profile'))
+  //             : _PersonalTab(),
+  //   );
+  // }
+  @override
+Widget build(BuildContext context) {
+  final provider = context.watch<PersonalDetailsProvider>();
+
+  WidgetsBinding.instance.addPostFrameCallback((_) {
+    if (provider.saveState == SaveState.success) {
+      ModernSnackBar.show(
+        context: context,
+        title: 'Success',
+        message: 'Profile updated successfully!',
+        type: SnackBarType.success,
+      );
+      provider.resetSaveState();
+    } else if (provider.saveState == SaveState.error) {
+      ModernSnackBar.show(
+        context: context,
+        title: 'Error',
+        message: provider.errorMessage ?? 'Something went wrong',
+        type: SnackBarType.error,
+      );
+      provider.resetSaveState();
+    }
+  });
+
+  return Scaffold(
+    backgroundColor: AppColors.secondary,
+    appBar: _buildAppBar(context, provider),
+    body: provider.isLoading
+        ? const Center(
+            child: CircularProgressIndicator(color: AppColors.primary))
+        : provider.user == null
+            ? const Center(child: Text('Failed to load profile'))
+            : _PersonalTab(),
+  );
+}
 
   PreferredSizeWidget _buildAppBar(
       BuildContext context, PersonalDetailsProvider provider) {
@@ -1602,6 +1638,7 @@ class _PersonalDetailsView extends StatelessWidget {
                     height: 16,
                     child: CircularProgressIndicator(
                         color: Colors.white, strokeWidth: 2))
+                        
                 : const Text('Save',
                     style: TextStyle(
                         color: Colors.white,
@@ -1629,18 +1666,18 @@ class _PersonalTab extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Save feedback
-          if (provider.saveState == SaveState.success)
-            _Banner(
-              message: 'Profile updated successfully!',
-              color: AppColors.success,
-              icon: Icons.check_circle_outline,
-            ),
-          if (provider.saveState == SaveState.error)
-            _Banner(
-              message: provider.errorMessage ?? 'Something went wrong',
-              color: AppColors.rejected,
-              icon: Icons.error_outline,
-            ),
+          // if (provider.saveState == SaveState.success)
+          //   _Banner(
+          //     message: 'Profile updated successfully!',
+          //     color: AppColors.success,
+          //     icon: Icons.check_circle_outline,
+          //   ),
+          // if (provider.saveState == SaveState.error)
+          //   _Banner(
+          //     message: provider.errorMessage ?? 'Something went wrong',
+          //     color: AppColors.rejected,
+          //     icon: Icons.error_outline,
+          //   ),
 
           // Profile photo
           _buildPhotoSection(context, provider),
@@ -1717,7 +1754,13 @@ class _PersonalTab extends StatelessWidget {
               bottom: 0,
               right: 0,
               child: GestureDetector(
-                onTap: () => provider.pickProfileImage(),
+                // onTap: () => provider.pickProfileImage(),
+                onTap: () {
+                  showModalBottomSheet(
+                    context: context, 
+                    builder: (_) => CustomCameraGalleryBottomSheet(onImagePicked: (path) => provider.setProfileImage(path),),
+                  );
+                },
                 child: Container(
                   padding: const EdgeInsets.all(8),
                   decoration: const BoxDecoration(

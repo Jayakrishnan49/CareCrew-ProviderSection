@@ -9,7 +9,7 @@ class HomeProvider extends ChangeNotifier {
   final String providerId = FirebaseAuth.instance.currentUser?.uid ?? '';
 
   // ── User ──────────────────────────────────────────────────────────────────
-  Future<UserModel?> getUser() => _userService.getUser(providerId);
+  Stream<UserModel?> get userStream => _userService.streamUser(providerId);
 
   // ── Streams (expose directly — widgets subscribe via StreamBuilder) ────────
   Stream<QuerySnapshot> get pendingRequestsStream => FirebaseFirestore.instance
