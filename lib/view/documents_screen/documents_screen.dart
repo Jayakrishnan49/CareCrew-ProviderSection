@@ -220,7 +220,14 @@ class _DocumentsTab extends StatelessWidget {
           DropdownButtonFormField<String>(
             value: provider.selectedServiceForRequest,
             hint: const Text('Select new service'),
-            decoration: _inputDecoration('Service Type', Icons.build_outlined),
+            isExpanded: true, 
+            // decoration: _inputDecoration('Service Type', Icons.build_outlined),
+//             decoration: _inputDecoration('Service Type', Icons.build_outlined).copyWith(
+//   contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+// ),
+decoration: _inputDecoration('Service Type', Icons.build_outlined).copyWith(
+  floatingLabelBehavior: FloatingLabelBehavior.never, // 👈 label stays as hint, never floats up to border
+),
             items: provider.services
                 .map((s) =>
                     DropdownMenuItem(value: s.name, child: Text(s.name)))

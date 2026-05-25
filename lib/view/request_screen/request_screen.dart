@@ -145,7 +145,11 @@ class BookingRequestsScreen extends StatelessWidget {
             await Future.delayed(const Duration(milliseconds: 500));
           },
           child: ListView.builder(
-            padding: const EdgeInsets.all(16),
+            // padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.fromLTRB(
+              16, 16, 16,
+              80 + MediaQuery.of(context).padding.bottom,
+            ),
             itemCount: requests.length,
             itemBuilder: (context, index) {
               return BookingRequestCard(
@@ -233,54 +237,3 @@ class BookingRequestsScreen extends StatelessWidget {
     );
   }
 }
-
-// class _StatItem extends StatelessWidget {
-//   final String label;
-//   final String value;
-//   final Color color;
-//   final IconData icon;
-
-//   const _StatItem({
-//     required this.label,
-//     required this.value,
-//     required this.color,
-//     required this.icon,
-//   });
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Column(
-//       children: [
-//         Container(
-//           padding: const EdgeInsets.all(12),
-//           decoration: BoxDecoration(
-//             color: color.withOpacity(0.1),
-//             shape: BoxShape.circle,
-//           ),
-//           child: Icon(
-//             icon,
-//             color: color,
-//             size: 28,
-//           ),
-//         ),
-//         const SizedBox(height: 8),
-//         Text(
-//           value,
-//           style: TextStyle(
-//             fontSize: 24,
-//             fontWeight: FontWeight.bold,
-//             color: color,
-//           ),
-//         ),
-//         const SizedBox(height: 4),
-//         Text(
-//           label,
-//           style: TextStyle(
-//             fontSize: 12,
-//             color: Colors.grey[600],
-//           ),
-//         ),
-//       ],
-//     );
-//   }
-// }

@@ -54,6 +54,10 @@ class ScheduleScreen extends StatelessWidget {
         firstDay: DateTime.utc(2020, 1, 1),
         lastDay: DateTime.utc(2030, 12, 31),
         focusedDay: controller.focusedDay,
+        calendarFormat: controller.calendarFormat, // 👈 add this
+        onFormatChanged: (format) {               // 👈 add this
+          context.read<ScheduleProvider>().onFormatChanged(format);
+        },
         selectedDayPredicate: (day) =>
             isSameDay(controller.selectedDay, day),
         onDaySelected: (selectedDay, focusedDay) =>
@@ -76,14 +80,26 @@ class ScheduleScreen extends StatelessWidget {
       stream: controller.bookingStream,
       builder: (context, snapshot) {
         if (controller.selectedDay == null) {
-          return const SliverFillRemaining(
-            child: Center(child: Text("Select a date")),
-          );
+          // return const SliverFillRemaining(
+          //   child: Center(child: Text("Select a date")),
+          // );
+          return SliverFillRemaining(
+          child: Padding(
+    padding: EdgeInsets.only(bottom: 80 + MediaQuery.of(context).padding.bottom), 
+    child: const Center(child: Text("Select a date")),
+  ),
+);
         }
         if (!snapshot.hasData) {
-          return const SliverFillRemaining(
-            child: Center(child: CircularProgressIndicator()),
-          );
+          // return const SliverFillRemaining(
+          //   child: Center(child: CircularProgressIndicator()),
+          // );
+          return SliverFillRemaining(
+  child: Padding(
+    padding: EdgeInsets.only(bottom: 80 + MediaQuery.of(context).padding.bottom), // 👈
+    child: const Center(child: CircularProgressIndicator()),
+  ),
+);
         }
 
         final allDocs = snapshot.data!;
@@ -98,7 +114,8 @@ class ScheduleScreen extends StatelessWidget {
         }
 
         return SliverPadding(
-          padding: const EdgeInsets.all(16),
+          // padding: const EdgeInsets.all(16),
+           padding: EdgeInsets.fromLTRB(16, 16, 16, 80 + MediaQuery.of(context).padding.bottom),
           sliver: SliverList(
             delegate: SliverChildListDelegate([
               if (accepted.isNotEmpty) ...[

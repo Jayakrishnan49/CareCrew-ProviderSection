@@ -8,7 +8,7 @@ class LoginTop extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SizedBox(height: 60,),
+        SizedBox(height: 45,),
         Text('Login',
           style: TextStyle(
           color: AppColors.textColor,
@@ -25,7 +25,7 @@ class LoginTop extends StatelessWidget {
               color: AppColors.grey,
             ),
         ),
-        SizedBox(height: 30,)
+        SizedBox(height: 20,)
       ],
     );
   }

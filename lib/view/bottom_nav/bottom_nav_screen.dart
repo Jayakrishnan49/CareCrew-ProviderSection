@@ -76,8 +76,12 @@ class NavPage extends StatelessWidget {
                           gap: 8,
                           activeColor: AppColors.secondary,
                           iconSize: 26,
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 12),
+                          // padding: const EdgeInsets.symmetric(
+                          //     horizontal: 20, vertical: 12),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: MediaQuery.of(context).size.width * 0.03,
+                            vertical: 12,
+                          ),
                           duration: const Duration(milliseconds: 400),
                           tabBackgroundColor:
                               AppColors.secondary.withValues(alpha: 0.2),

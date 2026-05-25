@@ -60,6 +60,15 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^5.0.0
+  flutter_launcher_icons: ^0.14.4
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: assets\app_logo\goserve_partner_app_icon.png
+  adaptive_icon_background: assets\app_logo\goserve_partner_bg_icon.png
+  adaptive_icon_foreground: assets\app_logo\goserve_partner_app_icon.png
+  min_sdk_android: 21
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -75,12 +84,15 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/icons/
-    - assets/icons/google icon.png
-    - assets/icons/call icon.png
-    - assets/icons/registration_info.png
-    - assets/icons/registration_info1.png
+    - assets/icons/google_signin_icon.png
+    - assets/icons/phonecall_icon.png
     - assets/icons/registration_info2.png
     - assets/logo/logout.png
+    - assets/animations/Uploading.json.json
+    - assets/logo/login_bg_img.png
+    - assets/app_logo/goserve_official_logo.png
+    - assets\app_logo\goserve_partner_app_icon.png
+    - assets\app_logo\goserve_partner_bg_icon.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

@@ -3,6 +3,7 @@ import 'package:project_2_provider/Constants/app_color.dart';
 import 'package:project_2_provider/controllers/auth_provider/auth_provider.dart';
 import 'package:project_2_provider/utilities/app_validators.dart';
 import 'package:project_2_provider/widgets/custom_button.dart';
+import 'package:project_2_provider/widgets/custom_modern_snackbar.dart';
 import 'package:project_2_provider/widgets/custom_text_form_field.dart';
 import 'package:provider/provider.dart';
 
@@ -34,7 +35,7 @@ class LoginRegistration extends StatelessWidget {
             alignment: Alignment.topLeft,
             child: Text(
               'E-Mail ID',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
             ),
           ),
           const SizedBox(height: 10),
@@ -51,7 +52,7 @@ class LoginRegistration extends StatelessWidget {
             alignment: Alignment.topLeft,
             child: Text(
               'Enter Password',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
             ),
           ),
           const SizedBox(height: 10),
@@ -69,7 +70,6 @@ class LoginRegistration extends StatelessWidget {
             children: [
               InkWell(
                 onTap: () {
-                  ////// location
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => ForgotPassword()),
@@ -96,20 +96,29 @@ class LoginRegistration extends StatelessWidget {
                     emailController.text.trim(),
                     passwordController.text.trim(),
                   );
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Successfully Logged In')),
+
+                  // ✅ Success snackbar
+                  ModernSnackBar.show(
+                    context: context,
+                    title: 'Welcome Back!',
+                    message: 'Successfully Logged In',
+                    type: SnackBarType.success,
                   );
+
                   Navigator.of(context).pushReplacement(
                     MaterialPageRoute(builder: (context) => AuthNavigation()),
                   );
                 } catch (e) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Error: ${e.toString()}')),
+                  // ❌ Error snackbar
+                  ModernSnackBar.show(
+                    context: context,
+                    title: 'Login Failed',
+                    message: e.toString(),
+                    type: SnackBarType.error,
                   );
                 }
               }
             },
-
             text: 'Sign In',
             borderRadius: 15,
           ),

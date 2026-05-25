@@ -1,16 +1,3 @@
-// import 'package:flutter/material.dart';
-
-// class AppColors {
-//   static const Color primary=Color(0xFFF57C00); 
-//   static const Color secondary=Colors.white;
-//   // static Color textColor=Colors.black;
-//   static const Color textColor = Color(0xFF1C1F34);
-//   static const Color hintText = Color(0xFF6C757D); 
-//   static const Color buttonColor=Colors.black;
-//   static const Color grey=Colors.grey; 
-//   static const Color success=Colors.green; 
-// }
-
 
 import 'package:flutter/material.dart';
 

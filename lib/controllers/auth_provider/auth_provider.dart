@@ -32,22 +32,7 @@ class ServiceAuthProvider extends ChangeNotifier {
     }
   }
 
-  // Future<UserCredential> signUpAccount(String email, String password) async {
-  //   try {
-  //     _setLoading(true);
-  //     final UserCredential cred =
-  //         await auth.createUserWithEmailAndPassword(email: email, password: password);            
-  //     return cred;
-  //   } on FirebaseAuthException catch (e) {
-  //     throw Exception(e.message);
-  //   } catch (_) {
-  //     throw Exception("Something went wrong");
-  //   }
-  //   finally{
-  //     _setLoading(false);
-  //   }
-  // }
-
+  
     Future<UserCredential> signUpAccount(String email, String password) async {
     try {
       _setLoading(true);
@@ -86,34 +71,109 @@ class ServiceAuthProvider extends ChangeNotifier {
     notifyListeners();
   }
 //////////////
-    Future<void> verifyPhone({
-    required String phoneNumber,
-    required Function(PhoneAuthCredential) onVerificationCompleted,
-    required Function(FirebaseAuthException) onVerificationFailed,
-    required Function(String verificationId, int? resendToken) onCodeSent,
-    required Function(String) onCodeAutoRetrievalTimeout,
-  }) async {
+  //   Future<void> verifyPhone({
+  //   required String phoneNumber,
+  //   required Function(PhoneAuthCredential) onVerificationCompleted,
+  //   required Function(FirebaseAuthException) onVerificationFailed,
+  //   required Function(String verificationId, int? resendToken) onCodeSent,
+  //   required Function(String) onCodeAutoRetrievalTimeout,
+  // }) async {
+  //   await auth.verifyPhoneNumber(
+  //     phoneNumber: phoneNumber,
+  //     verificationCompleted: onVerificationCompleted,
+  //     verificationFailed: onVerificationFailed,
+  //     codeSent: onCodeSent,
+  //     codeAutoRetrievalTimeout: onCodeAutoRetrievalTimeout,
+  //   );
+  // }
+
+//   Future<void> verifyPhone({
+//   required String phoneNumber,
+//   required Function(PhoneAuthCredential) onVerificationCompleted,
+//   required Function(FirebaseAuthException) onVerificationFailed,
+//   required Function(String verificationId, int? resendToken) onCodeSent,
+//   required Function(String) onCodeAutoRetrievalTimeout,
+// }) async {
+//   try {
+//     _setLoading(true); // 👈
+//     await auth.verifyPhoneNumber(
+//       phoneNumber: phoneNumber,
+//       verificationCompleted: onVerificationCompleted,
+//       verificationFailed: onVerificationFailed,
+//       codeSent: (verificationId, resendToken) {
+//         _setLoading(false); // 👈 stop loading when OTP is sent
+//         onCodeSent(verificationId, resendToken);
+//       },
+//       codeAutoRetrievalTimeout: onCodeAutoRetrievalTimeout,
+//     );
+//   } on FirebaseAuthException catch (e) {
+//     _setLoading(false); // 👈 stop on error
+//     throw Exception(e.message);
+//   } catch (e) {
+//     _setLoading(false); // 👈 stop on error
+//     rethrow;
+//   }
+// }
+
+
+
+Future<void> verifyPhone({
+  required String phoneNumber,
+  required Function(PhoneAuthCredential) onVerificationCompleted,
+  required Function(FirebaseAuthException) onVerificationFailed,
+  required Function(String verificationId, int? resendToken) onCodeSent,
+  required Function(String) onCodeAutoRetrievalTimeout,
+}) async {
+  try {
+    _setLoading(true);
     await auth.verifyPhoneNumber(
       phoneNumber: phoneNumber,
       verificationCompleted: onVerificationCompleted,
-      verificationFailed: onVerificationFailed,
-      codeSent: onCodeSent,
+      verificationFailed: (e) {
+        _setLoading(false); // 👈 stop loader on failure
+        onVerificationFailed(e);
+      },
+      codeSent: (verificationId, resendToken) {
+        _setLoading(false); // 👈 stop loader when OTP sent
+        onCodeSent(verificationId, resendToken);
+      },
       codeAutoRetrievalTimeout: onCodeAutoRetrievalTimeout,
     );
+  } on FirebaseAuthException catch (e) {
+    _setLoading(false); // 👈 stop loader on exception
+    throw Exception(e.message);
+  } catch (e) {
+    _setLoading(false); // 👈 stop loader on any other error
+    rethrow;
   }
+}
 
-  Future<User?> verifyOtp(String verificationId, String smsCode) async {
+  // Future<User?> verifyOtp(String verificationId, String smsCode) async {
+  //   final credential = PhoneAuthProvider.credential(
+  //     verificationId: verificationId,
+  //     smsCode: smsCode,
+  //   );
+  //   final userCredential = await auth.signInWithCredential(credential);
+  //   return userCredential.user;
+  // }
+
+
+Future<User?> verifyOtp(String verificationId, String smsCode) async {
+  try {
+    _setLoading(true); // 👈
     final credential = PhoneAuthProvider.credential(
       verificationId: verificationId,
       smsCode: smsCode,
     );
     final userCredential = await auth.signInWithCredential(credential);
     return userCredential.user;
+  } on FirebaseAuthException catch (e) {
+    throw Exception(e.message);
+  } finally {
+    _setLoading(false); // 👈
   }
+}
 
-  // Future<void> resetPassword(String email) async {
-  //   await auth.sendPasswordReset(email);
-  // }
   Future<void> resetPassword(String email) async {
   try {
     await auth.sendPasswordResetEmail(email: email);
@@ -124,23 +184,6 @@ class ServiceAuthProvider extends ChangeNotifier {
   }
 }
 
-
-
-// Future<UserCredential> signInWithGoogle() async {
-//   final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-//   if (googleUser == null) {
-//     throw Exception('Google Sign-In aborted');
-//   }
-
-//   final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
-
-//   final credential = GoogleAuthProvider.credential(
-//     accessToken: googleAuth.accessToken,
-//     idToken: googleAuth.idToken,
-//   );
-
-//   return await auth.signInWithCredential(credential);
-// }
 
    Future<UserCredential> signInWithGoogle() async {
     try {
@@ -164,15 +207,5 @@ class ServiceAuthProvider extends ChangeNotifier {
     }
   }
 
-
-
-  // Future<void> signOutGoogle() async {
-  //   try {
-  //     await _googleSignIn.signOut();
-  //     await _auth.signOut();
-  //   } catch (e) {
-  //     print("Sign-out Error: $e");
-  //   }
-  // }
 
 }

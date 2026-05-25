@@ -166,6 +166,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "439649205142-d9i74bpoigupulab70vbtg4tqtidfnli.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.goserve.user",
+            "certificate_hash": "67d19c704e32ffe2b758812ef99ebc88e99f21fb"
+          }
+        },
+        {
+          "client_id": "439649205142-j0jp7tegnkdilmc9sesaki5s7jd9js9o.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.goserve.user",
+            "certificate_hash": "1c8de97619e0ccb4cb5ced4f9192e8111d823d44"
+          }
+        },
+        {
           "client_id": "439649205142-pftol370miq4rcbkkj8b9pqqvajgpgle.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -201,6 +217,14 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "439649205142-f1mc8g4cl7cprv0b92m8bp8kph4sg4do.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.goservice.partner",
+            "certificate_hash": "1c8de97619e0ccb4cb5ced4f9192e8111d823d44"
+          }
+        },
         {
           "client_id": "439649205142-pftol370miq4rcbkkj8b9pqqvajgpgle.apps.googleusercontent.com",
           "client_type": 3

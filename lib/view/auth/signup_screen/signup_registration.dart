@@ -3,6 +3,7 @@ import 'package:project_2_provider/controllers/auth_provider/auth_provider.dart'
 import 'package:project_2_provider/utilities/app_validators.dart';
 import 'package:project_2_provider/view/auth/login_screen/login_main.dart';
 import 'package:project_2_provider/widgets/custom_button.dart';
+import 'package:project_2_provider/widgets/custom_modern_snackbar.dart';
 import 'package:project_2_provider/widgets/custom_text_form_field.dart';
 import 'package:provider/provider.dart';
 
@@ -28,7 +29,7 @@ class SignupRegistration extends StatelessWidget {
             alignment: Alignment.topLeft,
             child: Text(
               'E-Mail ID',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
             ),
           ),
           const SizedBox(height: 10),
@@ -45,7 +46,7 @@ class SignupRegistration extends StatelessWidget {
             alignment: Alignment.topLeft,
             child: Text(
               'Enter Password',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
             ),
           ),
           const SizedBox(height: 10),
@@ -64,7 +65,7 @@ class SignupRegistration extends StatelessWidget {
             alignment: Alignment.topLeft,
             child: Text(
               'Confirm Password',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
             ),
           ),
           const SizedBox(height: 10),
@@ -87,14 +88,28 @@ class SignupRegistration extends StatelessWidget {
                         passwordController.text.trim(),
                         
                       );
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Account created')),
+                      // ScaffoldMessenger.of(context).showSnackBar(
+                      //   const SnackBar(content: Text('Account created')),
+                      // );
+                      ModernSnackBar.show(
+                        context: context, 
+                        title: 'Account Created',
+                        message: 'Signed up successfully',
+                        type: SnackBarType.success
                       );
                       Navigator.of(context).push(MaterialPageRoute(builder:(context) => LoginMain(),));
                     } 
                     catch (e) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Error: ${e.toString()}')),
+                      // ScaffoldMessenger.of(context).showSnackBar(
+                      //   SnackBar(content: Text('Error: ${e.toString()}')),
+                      // );
+                      ModernSnackBar.show(
+                        context: context, 
+                        title: 'Failed',
+                        message:e.toString().contains('email-already-in-use')
+                                ? 'This email is already registered.'
+                                : 'Signup failed. Please try again.',
+                        type: SnackBarType.error
                       );
                     }
                 }

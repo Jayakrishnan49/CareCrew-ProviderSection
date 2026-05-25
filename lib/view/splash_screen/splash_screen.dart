@@ -1,74 +1,3 @@
-// import 'package:flutter/material.dart';
-// import 'package:project_2_provider/Constants/app_color.dart';
-// import 'package:project_2_provider/Controllers/Auth%20Provider/auth_provider.dart';
-// import 'package:project_2_provider/View/Approval/approval.dart';
-// import 'package:project_2_provider/View/auth/login_screen/login_main.dart';
-// import 'package:provider/provider.dart';
-
-// class SplashScreen extends StatelessWidget {
-//   const SplashScreen({super.key});
-
-//   void navigateUser(BuildContext context) async {
-//     final authProvider = Provider.of<ServiceAuthProvider>(context, listen: false);
-//     bool isLoggedIn = await authProvider.checkUserLogin();
-
-//     Future.delayed(const Duration(seconds: 2), () {
-//       Navigator.pushReplacement(
-//         context,
-//         MaterialPageRoute(
-//           builder:
-//               (context) =>
-//                   isLoggedIn ?  UserApprovalStatusScreen() : const LoginMain(),
-//         ),
-//       );
-//     });
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     Future.microtask(() => navigateUser(context));
-//     return Scaffold(
-//   backgroundColor: AppColors.primary,
-//   body: SafeArea(
-//     child: Center(
-//       child: Column(
-//         mainAxisAlignment: MainAxisAlignment.center,
-//         children: [
-  
-//           Container(
-//             width: 80,
-//             height: 80,
-//             decoration: BoxDecoration(
-//               shape: BoxShape.circle,
-//               color: AppColors.secondary,
-//             ),
-//             child: Icon(
-//               Icons.build_circle,
-//               size: 40,
-//               color: AppColors.primary,
-//             ),
-//           ),
-          
-//           SizedBox(height: 40),
-//           Text(
-//             'Partner Hub Care Crew',
-//             style: TextStyle(
-//               fontSize: 30,
-//               fontWeight: FontWeight.bold,
-//               color: AppColors.secondary,
-//             ),
-//           ),
-//         ],
-//       ),
-//     ),
-//   ),
-// );
-//   }
-// }
-
-
-
-
 
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -80,103 +9,138 @@ class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
 
   Future<void> _navigateUser(BuildContext context) async {
-    // Wait for splash to show
-    await Future.delayed(const Duration(seconds: 2));
-    
+    await Future.delayed(const Duration(milliseconds: 2800));
     if (!context.mounted) return;
-    
-    // Check Firebase Auth
     final user = FirebaseAuth.instance.currentUser;
-    
-    if (user != null) {
-      // User is logged in → Go to AuthNavigation
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const AuthNavigation()),
-      );
-    } else {
-      // User is NOT logged in → Go to Login
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const LoginMain()),
-      );
-    }
+    Navigator.pushReplacement(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (_, __, ___) =>
+            user != null ? const AuthNavigation() : const LoginMain(),
+        transitionsBuilder: (_, animation, __, child) =>
+            FadeTransition(opacity: animation, child: child),
+        transitionDuration: const Duration(milliseconds: 500),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    // Start navigation after build
     Future.microtask(() => _navigateUser(context));
-  //   WidgetsBinding.instance.addPostFrameCallback((_) {
-  //   _navigateUser(context);
-  // });
-    
+
     return Scaffold(
       backgroundColor: AppColors.primary,
-      body: SafeArea(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              // Logo with shadow
-              Container(
-                width: 100,
-                height: 100,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: AppColors.secondary,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.2),
-                      blurRadius: 20,
-                      offset: const Offset(0, 10),
-                    ),
-                  ],
-                ),
-                child: Icon(
-                  Icons.build_circle,
-                  size: 50,
-                  color: AppColors.primary,
-                ),
+      body: Stack(
+        children: [
+          // Background decorative circles
+          Positioned(
+            top: -60,
+            right: -60,
+            child: Container(
+              width: 200,
+              height: 200,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.white.withOpacity(0.05),
               ),
-              
-              const SizedBox(height: 40),
-              
-              // App Name
-              const Text(
-                'Partner Hub',
-                style: TextStyle(
-                  fontSize: 32,
-                  fontWeight: FontWeight.w800,
-                  color: Colors.white,
-                  letterSpacing: 1,
-                ),
-              ),
-              const SizedBox(height: 8),
-              const Text(
-                'Care Crew',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.white70,
-                  letterSpacing: 2,
-                ),
-              ),
-              
-              const SizedBox(height: 60),
-              
-              // Loading indicator
-              SizedBox(
-                width: 30,
-                height: 30,
-                child: CircularProgressIndicator(
-                  color: AppColors.secondary,
-                  strokeWidth: 3,
-                ),
-              ),
-            ],
+            ),
           ),
-        ),
+          Positioned(
+            bottom: -80,
+            left: -80,
+            child: Container(
+              width: 280,
+              height: 280,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.white.withOpacity(0.05),
+              ),
+            ),
+          ),
+
+          // Main content
+          SafeArea(
+            child: SizedBox(
+              width: double.infinity,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const Spacer(flex: 2),
+
+                  // Logo — scale + fade
+                  TweenAnimationBuilder<double>(
+                    tween: Tween(begin: 0.0, end: 1.0),
+                    duration: const Duration(milliseconds: 800),
+                    curve: Curves.elasticOut,
+                    builder: (context, value, child) {
+                      return Opacity(
+                        opacity: value.clamp(0.0, 1.0),
+                        child: Transform.scale(
+                          scale: value.clamp(0.0, 1.2),
+                          child: child,
+                        ),
+                      );
+                    },
+                    child: SizedBox(
+                      // padding: const EdgeInsets.all(24),
+                      // decoration: BoxDecoration(
+                      //   color: Colors.white.withOpacity(0.1),
+                      //   shape: BoxShape.circle,
+                      // ),
+                      child: Image.asset(
+                        'assets/app_logo/goserve_official_logo.png',
+                        height: 130,
+                      ),
+                    ),
+                  ),
+
+                  // const SizedBox(height: 32),
+
+                  // Text — slide up + fade
+                  TweenAnimationBuilder<double>(
+                    tween: Tween(begin: 0.0, end: 1.0),
+                    duration: const Duration(milliseconds: 600),
+                    curve: Curves.easeOut,
+                    builder: (context, value, child) {
+                      return Opacity(
+                        opacity: value.clamp(0.0, 1.0),
+                        child: Transform.translate(
+                          offset: Offset(0, 30 * (1 - value)),
+                          child: child,
+                        ),
+                      );
+                    },
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Text(
+                          'GoServe Partner',
+                          style: TextStyle(
+                            fontSize: 28,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.white,
+                            letterSpacing: 0.5,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          'Your service, delivered with trust',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.white.withOpacity(0.7),
+                            letterSpacing: 0.3,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  const Spacer(flex: 2),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

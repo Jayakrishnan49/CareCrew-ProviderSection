@@ -112,24 +112,45 @@ class DocumentPicker extends StatelessWidget {
                       ),
                     ],
                   )
-                : Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        icon,
-                        color: AppColors.hintText,
-                        size: 30,
-                      ),
-                      const SizedBox(width: 12),
-                      Text(
-                        'Tap to upload $label',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: AppColors.hintText,
-                        ),
-                      ),
-                    ],
-                  ),
+                // : Row(
+                //     mainAxisAlignment: MainAxisAlignment.center,
+                //     children: [
+                //       Icon(
+                //         icon,
+                //         color: AppColors.hintText,
+                //         size: 30,
+                //       ),
+                //       const SizedBox(width: 12),
+                //       Text(
+                //         'Tap to upload $label',
+                //         style: TextStyle(
+                //           fontSize: 14,
+                //           color: AppColors.hintText,
+                //         ),
+                //       ),
+                //     ],
+                //   ),
+                :Row(
+  mainAxisAlignment: MainAxisAlignment.center,
+  children: [
+    Icon(
+      icon,
+      color: AppColors.hintText,
+      size: 30,
+    ),
+    const SizedBox(width: 12),
+    Expanded(               // 👈 add this
+      child: Text(
+        'Tap to upload $label',
+        style: TextStyle(
+          fontSize: 14,
+          color: AppColors.hintText,
+        ),
+        overflow: TextOverflow.ellipsis, // 👈 and this
+      ),
+    ),
+  ],
+),
           ),
         ),
       ],

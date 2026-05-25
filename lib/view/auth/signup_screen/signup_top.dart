@@ -12,7 +12,7 @@ class SignupTop extends StatelessWidget {
         CircleAvatar(
           radius: 50,
           backgroundColor: AppColors.primary,
-          child: Icon(Icons.person_outline_outlined,color: AppColors.secondary,size: 50,),
+          child: Icon(Icons.person,color: AppColors.secondary,size: 50,),
         ),
         SizedBox(height: 20,),
         Text(
